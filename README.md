@@ -1,76 +1,157 @@
-# api-client-node
+# Wits File Parser
+[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
 
-[![npm](https://img.shields.io/npm/v/Vibely API Node Client.svg)](https://www.npmjs.com/package/Vibely API Node Client)
-[![GitHub license](https://img.shields.io/github/license/4barz/vibely-api-client-node.svg)](./LICENSE.txt)
-[![David](https://img.shields.io/david/4barz/vibely-api-client-node.svg)](https://david-dm.org/4barz/vibely-api-client-node)
-[![David](https://img.shields.io/david/dev/4barz/vibely-api-client-node.svg)](https://david-dm.org/4barz/vibely-api-client-node#info=devDependencies)
-[![Travis](https://img.shields.io/travis/4barz/vibely-api-client-node.svg)](https://travis-ci.org/4barz/vibely-api-client-node)
-
-> Built from [makenew/npm-package](https://github.com/makenew/npm-package).n
 ## Description
-
+[xlsx]: https://github.com/SheetJS/js-xlsx
 The official vibely node api client
 
 ## Installation
 
-The recommended method is to add this as a dependency
-to your project using [npm] with
+Add this as a dependency to your project using [yarn] with
 
 ```
-$ npm install --save Vibely API Node Client
+$ yarn add @vibely/api-client-node
 ```
 
-Alternatively, you can download a [release][Releases]
-or clone the repository directly.
+[yarn]: https://yarnpkg.com/
 
-[npm]: https://www.npmjs.com/
-[Releases]: https://github.com/4barz/vibely-api-client-node/releases
+## Usage
+
+This package exposes an api for getting events intended to be use like.
+
+```js
+var api = require('@vibely/api-client-node').default({})
+
+var events = api.getEvent(`token`)
+
+console.log('events', events)
+
+```
+
+## Development Quickstart
+
+```
+$ git clone https://github.com/vibely/api-client-node.git
+$ cd api-client-node
+$ nvm install
+$ yarn
+```
 
 ## Development and Testing
 
 ### Source Code
 
-The [Vibely API Node Client source] is hosted on GitHub.
+The [api-client-node source] is hosted on GitHub.
 Clone the project with
 
 ```
-$ git clone https://github.com/4barz/vibely-api-client-node.git
+$ git clone https://github.com/vibely/api-client-node.git
 ```
 
-[Vibely API Node Client source]: https://github.com/4barz/vibely-api-client-node
+[api-client-node source]:https://github.com/vibely/api-client-node
 
 ### Requirements
 
-You will need [Node.js] with [npm].
+You will need [Node.js] with [yarn].
+
+
+Be sure that all commands run under the correct Node version, e.g.,
+if using [nvm], install the correct version with
+
+```
+$ nvm install
+```
+
+and set the active version for each shell session with
+
+```
+$ nvm use
+```
 
 Install the development dependencies with
 
 ```
-$ npm install
+$ yarn
 ```
 
 [Node.js]: https://nodejs.org/
+[nvm]: https://github.com/creationix/nvm
 
-## Contributing
+### Tasks
 
-Please submit and comment on bug reports and feature requests.
+Primary development tasks are defined under `scripts` in `package.json`
+and available via `yarn run`.
+View them with
 
-To submit a patch:
+```
+$ yarn run
+```
 
-1. Fork it (https://github.com/4barz/vibely-api-client-node/fork).
-2. Create your feature branch (`git checkout -b my-new-feature`).
-3. Make changes.
-4. Commit your changes (`git commit -am 'Add some feature'`).
-5. Push to the branch (`git push origin my-new-feature`).
-6. Create a new Pull Request.
+#### Production Build
+
+Lint, test, and transpile the production build to `dist` with
+
+```
+$ yarn run dist
+```
+
+##### Publishing a new release
+
+Release a new version using [`npm version`][npm version].
+This will run all tests, update the version number,
+create and push a tagged commit.
+
+[npm version]: https://docs.npmjs.com/cli/version
+
+#### Linting
+
+Linting against the [JavaScript Standard Style] and [JSON Lint]
+is handled by [gulp].
+
+
+Automatically fix most JavaScript formatting errors with
+
+```
+$ yarn run format
+```
+
+[gulp]: http://gulpjs.com/
+[JavaScript Standard Style]: http://standardjs.com/
+[JSON Lint]: https://github.com/zaach/jsonlint
+
+#### Tests
+
+Unit testing is handled by [AVA] and coverage is reported by [Istanbul].
+Watch and run tests on change with
+
+```
+$ yarn run test
+```
+
+Generate a coverage report with
+
+```
+$ yarn run report
+```
+
+An HTML version will be saved in `coverage`.
+
+[AVA]: https://github.com/avajs/ava
+[Istanbul]: https://istanbul.js.org/
 
 ## License
 
-This npm package is licensed under the MIT license.
+This npm package is Copyright (c) 2016-2017 Vibely Inc.
 
 ## Warranty
 
-This software is provided "as is" and without any express or
-implied warranties, including, without limitation, the implied
-warranties of merchantibility and fitness for a particular
-purpose.
+This software is provided by the copyright holders and contributors "as is" and
+any express or implied warranties, including, but not limited to, the implied
+warranties of merchantability and fitness for a particular purpose are
+disclaimed. In no event shall the copyright holder or contributors be liable for
+any direct, indirect, incidental, special, exemplary, or consequential damages
+(including, but not limited to, procurement of substitute goods or services;
+loss of use, data, or profits; or business interruption) however caused and on
+any theory of liability, whether in contract, strict liability, or tort
+(including negligence or otherwise) arising in any way out of the use of this
+software, even if advised of the possibility of such damage.
