@@ -1,0 +1,82 @@
+{
+  "name": "api-client-node",
+  "version": "0.0.1",
+  "description": "The official vibely node api client",
+  "main": "dist/index.js",
+  "keywords": [
+    "node"
+  ],
+  "homepage": "https://github.com/vibely/api-client-node",
+  "bugs": "https://github.com/vibely/api-client-node/issues",
+  "repository": "vibely/api-client-node",
+  "license": "MIT",
+  "author": {
+    "name": "Rubin Apore",
+    "email": "rubin.apore@gmail.com"
+  },
+  "scripts": {
+    "pretest": "./node_modules/.bin/standard",
+    "test": "nyc ava",
+    "package": "npm pack",
+    "prepackage": "yarn run dist",
+    "preversion": "yarn run dist",
+    "postversion": "git push && git push --tags",
+    "lint": "./node_modules/.bin/standard",
+    "build": "babel src -d dist/",
+    "watch": "onchange './src/*' -- npm run type:check",
+    "type:check": "flow check"
+  },
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "babel-cli": "^6.4.5",
+    "babel-core": "^6.4.5",
+    "babel-polyfill": "^6.23.0",
+    "flow-bin": "^0.22.0",
+    "onchange": "^2.0.0",
+    "ava": "^0.21.0",
+    "babel-eslint": "^4.1.8",
+    "babel-plugin-transform-flow-strip-types": "^6.4.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-latest": "^6.24.1",
+    "nyc": "^11.0.3",
+    "standard": "^10.0.2"
+  },
+  "ava": {
+    "files": [
+      "**/**.spec.js",
+      "!src/index.js",
+      "!dist/**/*"
+    ],
+    "require": [
+      "babel-register"
+    ],
+    "concurrency": 5,
+    "babel": {
+      "babelrc": true,
+      "sourceMaps": "inline"
+    }
+  },
+  "nyc": {
+    "check-coverage": true,
+    "lines": 90,
+    "statements": 90,
+    "functions": 90,
+    "branches": 85,
+    "exclude": [
+      "dist/**/*",
+      "**/*.spec.js"
+    ],
+    "reporter": [
+      "html",
+      "lcov",
+      "text"
+    ]
+  },
+  "dependencies": {
+    "babel-runtime": "^6.23.0",
+    "cheerio": "^0.22.0",
+    "request": "^2.81.0"
+  }
+}
