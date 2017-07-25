@@ -20,7 +20,7 @@
     "package": "npm pack",
     "prepackage": "yarn run build",
     "preversion": "yarn run build",
-    "postversion": "git push && git push --tags",
+    "postversion": "git push upstream --tags",
     "lint": "./node_modules/.bin/standard",
     "build": "babel src -d dist/",
     "watch": "onchange './src/*' -- npm run type:check",
