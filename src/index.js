@@ -1,2 +1,3 @@
-import {VibelyAPI} from './api'
-export default options => new VibelyAPI(options)
+export { Content } from './content'
+export { Event } from './event'
+export { Location } from './location'

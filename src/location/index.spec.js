@@ -37,19 +37,19 @@ test('test getLocation', async t => {
   const id = t.context.location.id
   const location = new Location({api})
   const resp = await location.getLocation({id})
-  t.deepEqual(JSON.parse(resp), t.context.location)
+  t.deepEqual(resp, t.context.location)
 })
 
 test('test getLocations', async t => {
   nock(t.context.api)
-    .get(`/api/locations/`)
+    .get(`/api/locations`)
     .query({name: t.context.location.name})
     .reply(200, [t.context.location])
   const api = t.context.api
   const filter = {name: t.context.location.name}
   const location = new Location({api})
   const resp = await location.getLocations({filter})
-  t.deepEqual(JSON.parse(resp), [t.context.location])
+  t.deepEqual(resp, [t.context.location])
 })
 
 test('test updateLocation', async t => {

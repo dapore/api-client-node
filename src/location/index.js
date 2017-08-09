@@ -1,9 +1,10 @@
 import request from 'request-promise-native'
-import queryString from 'query-string'
+
 export class Location {
-  constructor ({api, log}) {
+  constructor ({api, log, token}) {
     this.api = api
     this.log = log
+    this.token = token
   }
 
   async createLocation ({location}) {
@@ -12,26 +13,54 @@ export class Location {
       method: `POST`,
       body: location,
       json: true,
-      headers: { 'Accept': 'application/json' }
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      }
     }
     const resp = await request(options)
     return resp
   }
 
   async getLocation ({id}) {
-    const resp = await request.get(`${this.api}/api/locations/${id}`)
+    const options = {
+      uri: `${this.api}/api/locations/${id}`,
+      method: `GET`,
+      json: true,
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      }
+    }
+    const resp = await request(options)
     return resp
   }
+
   async getLocations ({filter}) {
-    const resp = await request.get(`${this.api}/api/locations/?${queryString.stringify(filter)}`)
+    const options = {
+      uri: `${this.api}/api/locations`,
+      method: `GET`,
+      json: true,
+      qs: filter,
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      }
+    }
+    const resp = await request(options)
     return resp
   }
+
   async updateLocation ({id, updates}) {
     const options = {
       uri: `${this.api}/api/locations/${id}`,
       method: `POST`,
       json: true,
-      body: updates
+      body: updates,
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      }
     }
     const resp = await request(options)
     return resp
@@ -40,7 +69,11 @@ export class Location {
   async deleteLocation ({id}) {
     const options = {
       uri: `${this.api}/api/locations/${id}`,
-      method: `DELETE`
+      method: `DELETE`,
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      }
     }
     const resp = await request(options)
     return resp

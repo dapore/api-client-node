@@ -4,6 +4,7 @@ import { Content } from './index'
 
 test.beforeEach(async t => {
   t.context.api = `https://www.example.com`
+  t.context.token = `sampleToken`
   t.context.content = {
     id: `sample-content-id`,
     name: `sample-content-name`,
@@ -21,7 +22,7 @@ test('test createContent', async t => {
     .reply(201, t.context.content)
 
   const api = t.context.api
-
+  const token = t.context.token
   const name = `sample-content-name`
   const info = `sample-content-info`
   const type = `sample-event-type`
@@ -29,7 +30,7 @@ test('test createContent', async t => {
   const event = `sample-event-id`
   const active = true
 
-  const content = new Content({api})
+  const content = new Content({api, token})
   const resp = await content.createContent({name, info, type, uri, event, active})
   t.deepEqual(resp, t.context.content, `Must return content after create`)
 })
@@ -39,22 +40,24 @@ test('test getContent', async t => {
     .get(`/api/contents/${t.context.content.id}`)
     .reply(200, t.context.content)
   const api = t.context.api
+  const token = t.context.token
   const id = t.context.content.id
-  const content = new Content({api})
+  const content = new Content({api, token})
   const resp = await content.getContent({id})
-  t.deepEqual(JSON.parse(resp), t.context.content)
+  t.deepEqual(resp, t.context.content)
 })
 
 test('test getContents', async t => {
   nock(t.context.api)
-    .get(`/api/contents/`)
+    .get(`/api/contents`)
     .query({event: t.context.content.event})
     .reply(200, [t.context.content])
   const api = t.context.api
+  const token = t.context.token
   const filter = {event: t.context.content.event}
-  const content = new Content({api})
+  const content = new Content({api, token})
   const resp = await content.getContents({filter})
-  t.deepEqual(JSON.parse(resp), [t.context.content])
+  t.deepEqual(resp, [t.context.content])
 })
 
 test('test updateContent', async t => {
@@ -62,7 +65,8 @@ test('test updateContent', async t => {
     .post(`/api/contents/${t.context.content.id}`, t.context.content)
     .reply(200, t.context.content)
   const api = t.context.api
-  const content = new Content({api})
+  const token = t.context.token
+  const content = new Content({api, token})
   const id = t.context.content.id
   const resp = await content.updateContent({id, updates: t.context.content})
   t.deepEqual(resp, t.context.content)
@@ -73,7 +77,8 @@ test('test deleteContent', async t => {
     .delete(`/api/contents/${t.context.content.id}`)
     .reply(202, t.context.content)
   const api = t.context.api
-  const content = new Content({api})
+  const token = t.context.token
+  const content = new Content({api, token})
   const id = t.context.content.id
   const resp = await content.deleteContent({id})
   t.truthy(resp, `Has just deleted`)

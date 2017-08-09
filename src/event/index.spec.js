@@ -4,6 +4,7 @@ import { Event } from './index'
 
 test.beforeEach(async t => {
   t.context.api = `https://www.example.com`
+  t.context.token = `sampleToken`
   t.context.event = {
     id: `sample-event-id`,
     name: `sample-event-name`,
@@ -22,14 +23,14 @@ test('test createEvent', async t => {
     .reply(201, t.context.event)
 
   const api = t.context.api
-
+  const token = t.context.token
   const name = `sample-event-name`
   const info = `sample-event-info`
   const type = `sample-event-type`
   const uri = `sample-event-uri`
   const active = true
 
-  const event = new Event({api})
+  const event = new Event({api, token})
   const resp = await event.createEvent({name, info, type, uri, event, active})
   t.deepEqual(resp, t.context.event, `Must return event after create`)
 })
@@ -39,22 +40,24 @@ test('test getEvent', async t => {
     .get(`/api/events/${t.context.event.id}`)
     .reply(200, t.context.event)
   const api = t.context.api
+  const token = t.context.token
   const id = t.context.event.id
-  const event = new Event({api})
+  const event = new Event({api, token})
   const resp = await event.getEvent({id})
-  t.deepEqual(JSON.parse(resp), t.context.event)
+  t.deepEqual(resp, t.context.event)
 })
 
 test('test getEvents', async t => {
   nock(t.context.api)
-    .get(`/api/events/`)
+    .get(`/api/events`)
     .query({start_time: t.context.event.start_time})
     .reply(200, [t.context.event])
   const api = t.context.api
+  const token = t.context.token
   const filter = {start_time: t.context.event.start_time}
-  const event = new Event({api})
+  const event = new Event({api, token})
   const resp = await event.getEvents({filter})
-  t.deepEqual(JSON.parse(resp), [t.context.event])
+  t.deepEqual(resp, [t.context.event])
 })
 
 test('test updateEvent', async t => {
@@ -62,7 +65,8 @@ test('test updateEvent', async t => {
     .post(`/api/events/${t.context.event.id}`, t.context.event)
     .reply(200, t.context.event)
   const api = t.context.api
-  const event = new Event({api})
+  const token = t.context.token
+  const event = new Event({api, token})
   const id = t.context.event.id
   const resp = await event.updateEvent({id, updates: t.context.event})
   t.deepEqual(resp, t.context.event)
@@ -73,7 +77,8 @@ test('test deleteEvent', async t => {
     .delete(`/api/events/${t.context.event.id}`)
     .reply(202, t.context.event)
   const api = t.context.api
-  const event = new Event({api})
+  const token = t.context.token
+  const event = new Event({api, token})
   const id = t.context.event.id
   const resp = await event.deleteEvent({id})
   t.truthy(resp, `Has just deleted`)

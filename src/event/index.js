@@ -1,9 +1,9 @@
 import request from 'request-promise-native'
-import queryString from 'query-string'
 export class Event {
-  constructor ({api, log}) {
+  constructor ({api, log, token}) {
     this.api = api
     this.log = log
+    this.token = token
   }
 
   async createEvent ({event}) {
@@ -12,18 +12,40 @@ export class Event {
       method: `POST`,
       body: event,
       json: true,
-      headers: { 'Accept': 'application/json' }
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      }
     }
     const resp = await request(options)
     return resp
   }
 
   async getEvent ({id}) {
-    const resp = await request.get(`${this.api}/api/events/${id}`)
+    const options = {
+      uri: `${this.api}/api/events/${id}`,
+      method: `GET`,
+      json: true,
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      }
+    }
+    const resp = await request(options)
     return resp
   }
   async getEvents ({filter}) {
-    const resp = await request.get(`${this.api}/api/events/?${queryString.stringify(filter)}`)
+    const options = {
+      uri: `${this.api}/api/events`,
+      method: `GET`,
+      json: true,
+      qs: filter,
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      }
+    }
+    const resp = await request(options)
     return resp
   }
   async updateEvent ({id, updates}) {
@@ -31,7 +53,11 @@ export class Event {
       uri: `${this.api}/api/events/${id}`,
       method: `POST`,
       json: true,
-      body: updates
+      body: updates,
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      }
     }
     const resp = await request(options)
     return resp
@@ -40,7 +66,11 @@ export class Event {
   async deleteEvent ({id}) {
     const options = {
       uri: `${this.api}/api/events/${id}`,
-      method: `DELETE`
+      method: `DELETE`,
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      }
     }
     const resp = await request(options)
     return resp

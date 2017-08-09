@@ -1,9 +1,9 @@
 import request from 'request-promise-native'
-import queryString from 'query-string'
 export class Content {
-  constructor ({api, log}) {
+  constructor ({api, token, log}) {
     this.api = api
     this.log = log
+    this.token = token
   }
 
   async createContent ({content}) {
@@ -12,18 +12,40 @@ export class Content {
       method: `POST`,
       body: content,
       json: true,
-      headers: { 'Accept': 'application/json' }
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      }
     }
     const resp = await request(options)
     return resp
   }
 
   async getContent ({id}) {
-    const resp = await request.get(`${this.api}/api/contents/${id}`)
+    const options = {
+      uri: `${this.api}/api/contents/${id}`,
+      method: `GET`,
+      json: true,
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      }
+    }
+    const resp = await request(options)
     return resp
   }
   async getContents ({filter}) {
-    const resp = await request.get(`${this.api}/api/contents/?${queryString.stringify(filter)}`)
+    const options = {
+      uri: `${this.api}/api/contents`,
+      method: `GET`,
+      json: true,
+      qs: filter,
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      }
+    }
+    const resp = await request(options)
     return resp
   }
   async updateContent ({id, updates}) {
@@ -31,7 +53,11 @@ export class Content {
       uri: `${this.api}/api/contents/${id}`,
       method: `POST`,
       json: true,
-      body: updates
+      body: updates,
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      }
     }
     const resp = await request(options)
     return resp
@@ -40,7 +66,11 @@ export class Content {
   async deleteContent ({id}) {
     const options = {
       uri: `${this.api}/api/contents/${id}`,
-      method: `DELETE`
+      method: `DELETE`,
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      }
     }
     const resp = await request(options)
     return resp
