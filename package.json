@@ -30,17 +30,18 @@
     "dist"
   ],
   "devDependencies": {
+    "ava": "^0.21.0",
     "babel-cli": "^6.4.5",
     "babel-core": "^6.4.5",
-    "babel-polyfill": "^6.23.0",
-    "flow-bin": "^0.22.0",
-    "onchange": "^2.0.0",
-    "ava": "^0.21.0",
     "babel-eslint": "^4.1.8",
     "babel-plugin-transform-flow-strip-types": "^6.4.0",
     "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.23.0",
     "babel-preset-latest": "^6.24.1",
+    "flow-bin": "^0.22.0",
+    "nock": "^9.0.14",
     "nyc": "^11.0.3",
+    "onchange": "^2.0.0",
     "standard": "^10.0.2"
   },
   "ava": {
@@ -77,6 +78,7 @@
   "dependencies": {
     "babel-runtime": "^6.23.0",
     "cheerio": "^0.22.0",
-    "request": "^2.81.0"
+    "query-string": "^5.0.0",
+    "request-promise-native": "^1.0.4"
   }
 }
