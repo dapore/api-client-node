@@ -20,11 +20,83 @@ $ yarn add @vibely/api-client-node
 This package exposes an api for getting events intended to be use like.
 
 ```js
-var api = require('@vibely/api-client-node').default({})
+import { Content } from '@vibely/api-client-node'
+import { Event } from '@vibely/api-client-node'
+import { Location } from '@vibely/api-client-node'
 
-var events = api.getEvent(`token`)
+// api is vibely api route eg. `https://getvibely.herokuapp.com` [optional]
+// token is the auth token after login
+// log the loging api to use, defaults to console
 
-console.log('events', events)
+const content = new Content({api: ``, token: ``, log: console})
+const event = new Event({api: ``, token: ``, log: console})
+const location = new Location({api: ``, token: ``, log: console})
+
+location.createLocation({
+  geo: [9.894934, -2.4599409],
+  tags: [`town`],
+  info: ``,
+  active: true
+})
+.then(loc => {
+  console.log({loc})
+})
+
+/*
+{
+  loc: {
+    geo: [9.894934, -2.4599409],
+    tags: [`town`],
+    info: ``,
+    active: true
+  }
+}
+*/
+
+location.updateLocation({id, updates})
+.then(loc => {
+  console.log({loc})
+})
+
+location.getLocations({filter})
+.then(locs => {
+  console.log({locs})
+})
+
+/*
+{
+  locs: [{
+    geo: [9.894934, -2.4599409],
+    tags: [`town`],
+    info: ``,
+    active: true
+  }
+}]
+*/
+
+location.getLocation({id})
+.then(loc => {
+  console.log({loc})
+})
+
+/*
+{
+  locs: {
+    geo: [9.894934, -2.4599409],
+    tags: [`town`],
+    info: ``,
+    active: true
+  }
+}
+*/
+
+// same methods are on Event and Content
+// if you want to know the schema of the models, please visit 
+https://bitbucket.org/magohq/vibely-api/src/9e545417fc4fd807cb069857b3402e888eb57c00/server/api/content/content.model.js?at=master&fileviewer=file-view-default
+
+https://bitbucket.org/magohq/vibely-api/src/9e545417fc4fd807cb069857b3402e888eb57c00/server/api/event/event.model.js?at=master&fileviewer=file-view-default
+
+https://bitbucket.org/magohq/vibely-api/src/9e545417fc4fd807cb069857b3402e888eb57c00/server/api/location/location.model.js?at=master&fileviewer=file-view-default
 
 ```
 
