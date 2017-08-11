@@ -24,8 +24,8 @@ import { Content } from '@vibely/api-client-node'
 import { Event } from '@vibely/api-client-node'
 import { Location } from '@vibely/api-client-node'
 
-// api is vibely api route eg. `https://getvibely.herokuapp.com` [optional]
-// token is the auth token after login
+// api is vibely api route eg. `https://getvibely.herokuapp.com` [required]
+// token is the auth token after login default is ''
 // log the loging api to use, defaults to console
 
 const content = new Content({api: ``, token: ``, log: console})
@@ -91,7 +91,7 @@ location.getLocation({id})
 */
 
 // same methods are on Event and Content
-// if you want to know the schema of the models, please visit 
+// if you want to know the schema of the models, please visit
 https://bitbucket.org/magohq/vibely-api/src/9e545417fc4fd807cb069857b3402e888eb57c00/server/api/content/content.model.js?at=master&fileviewer=file-view-default
 
 https://bitbucket.org/magohq/vibely-api/src/9e545417fc4fd807cb069857b3402e888eb57c00/server/api/event/event.model.js?at=master&fileviewer=file-view-default
