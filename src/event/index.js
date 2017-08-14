@@ -14,7 +14,7 @@ export class Event {
   }
 
   async createEvent ({event}) {
-    const resp = (await this.instance.post(`/events`, event)).data
+    const resp = (await this.instance.post(`/events`, {data: event})).data
     return resp
   }
 
@@ -29,7 +29,7 @@ export class Event {
   }
 
   async updateEvent ({id, updates}) {
-    const resp = (await this.instance.post(`/events/${id}`, updates)).data
+    const resp = (await this.instance.post(`/events/${id}`, {data: updates})).data
     return resp
   }
 

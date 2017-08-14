@@ -14,7 +14,7 @@ export class Location {
   }
 
   async createLocation ({location}) {
-    const resp = (await this.instance.post(`/locations`, location)).data
+    const resp = (await this.instance.post(`/locations`, {data: location})).data
     return resp
   }
 
@@ -29,7 +29,7 @@ export class Location {
   }
 
   async updateLocation ({id, updates}) {
-    const resp = (await this.instance.post(`/locations/${id}`, updates)).data
+    const resp = (await this.instance.post(`/locations/${id}`, {data: updates})).data
     return resp
   }
 

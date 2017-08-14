@@ -14,7 +14,7 @@ export class Content {
   }
 
   async createContent ({content}) {
-    const resp = (await this.instance.post(`/contents`, content)).data
+    const resp = (await this.instance.post(`/contents`, {data: content})).data
     return resp
   }
 
@@ -29,7 +29,7 @@ export class Content {
   }
 
   async updateContent ({id, updates}) {
-    const resp = (await this.instance.post(`/contents/${id}`, updates)).data
+    const resp = (await this.instance.post(`/contents/${id}`, {data: updates})).data
     return resp
   }
 
