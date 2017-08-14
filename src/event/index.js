@@ -1,78 +1,40 @@
-import request from 'request-promise-native'
+import axios from 'axios'
 export class Event {
-  constructor ({api, log, token}) {
+  constructor ({api, token, log}) {
     this.api = api
     this.log = log
     this.token = token
-  }
-
-  async createEvent ({event}) {
-    const options = {
-      uri: `${this.api}/api/events`,
-      method: `POST`,
-      body: event,
-      json: true,
+    this.instance = axios.create({
+      baseURL: `${api.replace('/api', '')}/api`,
       headers: {
         'Accept': 'application/json',
         'Authorization': `Bearer ${this.token}`
       }
-    }
-    const resp = await request(options)
+    })
+  }
+
+  async createEvent ({event}) {
+    const resp = (await this.instance.post(`/events`, event)).data
     return resp
   }
 
   async getEvent ({id}) {
-    const options = {
-      uri: `${this.api}/api/events/${id}`,
-      method: `GET`,
-      json: true,
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${this.token}`
-      }
-    }
-    const resp = await request(options)
+    const resp = (await this.instance.get(`/events/${id}`)).data
     return resp
   }
+
   async getEvents ({filter}) {
-    const options = {
-      uri: `${this.api}/api/events`,
-      method: `GET`,
-      json: true,
-      qs: filter,
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${this.token}`
-      }
-    }
-    const resp = await request(options)
+    const resp = (await this.instance.get(`/events`, {params: filter})).data
     return resp
   }
+
   async updateEvent ({id, updates}) {
-    const options = {
-      uri: `${this.api}/api/events/${id}`,
-      method: `POST`,
-      json: true,
-      body: updates,
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${this.token}`
-      }
-    }
-    const resp = await request(options)
+    const resp = (await this.instance.post(`/events/${id}`, updates)).data
     return resp
   }
 
   async deleteEvent ({id}) {
-    const options = {
-      uri: `${this.api}/api/events/${id}`,
-      method: `DELETE`,
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${this.token}`
-      }
-    }
-    const resp = await request(options)
+    const resp = (await this.instance.delete(`/events/${id}`)).data
     return resp
   }
 }

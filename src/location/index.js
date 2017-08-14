@@ -1,81 +1,40 @@
-import request from 'request-promise-native'
-
+import axios from 'axios'
 export class Location {
-  constructor ({api, log, token}) {
+  constructor ({api, token, log}) {
     this.api = api
     this.log = log
     this.token = token
-  }
-
-  async createLocation ({location}) {
-    const options = {
-      uri: `${this.api}/api/locations`,
-      method: `POST`,
-      body: location,
-      json: true,
+    this.instance = axios.create({
+      baseURL: `${api.replace('/api', '')}/api`,
       headers: {
         'Accept': 'application/json',
         'Authorization': `Bearer ${this.token}`
       }
-    }
-    const resp = await request(options)
+    })
+  }
+
+  async createLocation ({location}) {
+    const resp = (await this.instance.post(`/locations`, location)).data
     return resp
   }
 
   async getLocation ({id}) {
-    const options = {
-      uri: `${this.api}/api/locations/${id}`,
-      method: `GET`,
-      json: true,
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${this.token}`
-      }
-    }
-    const resp = await request(options)
+    const resp = (await this.instance.get(`/locations/${id}`)).data
     return resp
   }
 
   async getLocations ({filter}) {
-    const options = {
-      uri: `${this.api}/api/locations`,
-      method: `GET`,
-      json: true,
-      qs: filter,
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${this.token}`
-      }
-    }
-    const resp = await request(options)
+    const resp = (await this.instance.get(`/locations`, {params: filter})).data
     return resp
   }
 
   async updateLocation ({id, updates}) {
-    const options = {
-      uri: `${this.api}/api/locations/${id}`,
-      method: `POST`,
-      json: true,
-      body: updates,
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${this.token}`
-      }
-    }
-    const resp = await request(options)
+    const resp = (await this.instance.post(`/locations/${id}`, updates)).data
     return resp
   }
 
   async deleteLocation ({id}) {
-    const options = {
-      uri: `${this.api}/api/locations/${id}`,
-      method: `DELETE`,
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${this.token}`
-      }
-    }
-    const resp = await request(options)
+    const resp = (await this.instance.delete(`/locations/${id}`)).data
     return resp
   }
 }
