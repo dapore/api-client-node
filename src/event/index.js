@@ -37,4 +37,14 @@ export class Event {
     const resp = (await this.instance.delete(`/events/${id}`)).data
     return resp
   }
+
+  async getEventCategories () {
+    const resp = (await this.instance.get(`/events/categories`)).data
+    return resp
+  }
+
+  async getEventSubCategories () {
+    const resp = (await this.instance.get(`/events/subcategories`)).data
+    return resp
+  }
 }

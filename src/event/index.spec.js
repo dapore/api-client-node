@@ -5,6 +5,8 @@ import { Event } from './index'
 test.beforeEach(async t => {
   t.context.api = `https://www.example.com`
   t.context.token = `sampleToken`
+  t.context.categories = ['culture', 'explore']
+  t.context.subcategories = ['art', 'opinion', 'food']
   t.context.event = {
     id: `sample-event-id`,
     name: `sample-event-name`,
@@ -45,6 +47,29 @@ test('test getEvent', async t => {
   const event = new Event({api, token})
   const resp = await event.getEvent({id})
   t.deepEqual(resp, t.context.event)
+})
+
+test('test getEventCategories', async t => {
+  nock(t.context.api)
+    .get(`/api/events/categories`)
+    .reply(200, t.context.categories)
+  const api = t.context.api
+  const token = t.context.token
+  const event = new Event({api, token})
+  const resp = await event.getEventCategories()
+  console.log({resp, msg: 'the resp from getEventCategories'})
+  t.deepEqual(resp, t.context.categories)
+})
+
+test('test getEventSubCategories', async t => {
+  nock(t.context.api)
+    .get(`/api/events/subcategories`)
+    .reply(200, t.context.subcategories)
+  const api = t.context.api
+  const token = t.context.token
+  const event = new Event({api, token})
+  const resp = await event.getEventSubCategories()
+  t.deepEqual(resp, t.context.subcategories)
 })
 
 test('test getEvents', async t => {
