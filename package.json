@@ -1,6 +1,6 @@
 {
   "name": "api-client-node",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "The official vibely node api client",
   "main": "dist/index.js",
   "keywords": [
